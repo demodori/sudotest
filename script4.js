@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { OrbitControls } from "https://unpkg.com/three@0.112/examples/jsm/controls/OrbitControls.js";
 
 var main = function () {
 
@@ -21,7 +22,7 @@ var main = function () {
 	var camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 	camera.position.set(0, 60, 100);
 	camera.rotation.set(-0.4, 0, 0);
-	controls = new THREE.OrbitControls(camera, renderer.domElement);
+	controls = new OrbitControls(camera, renderer.domElement);
 
     //ライトの作成
     var directionalLight = new THREE.DirectionalLight(0xffffff);
