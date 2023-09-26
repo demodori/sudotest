@@ -1,4 +1,9 @@
-var scene, camera, renderer, controls;
+import * as THREE from 'https://threejs.org/build/three.module.js';
+import { OrbitControls } from 'https://threejs.org/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from 'https://threejs.org/examples/jsm/loaders/GLTFLoader.js';
+
+let scene, camera, renderer;
+let controls;
 
 init();
 
@@ -14,13 +19,13 @@ function init() {
     camera.position.z = 5;
 
     // OrbitControlsの設定
-    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.25;
     controls.enableZoom = true;
 
     // GLBモデルのロード
-    var loader = new THREE.GLTFLoader();
+    let loader = new GLTFLoader();
     loader.load( 'model.glb', function ( gltf ) {
         scene.add( gltf.scene );
     }, undefined, function ( error ) {
@@ -34,7 +39,7 @@ function init() {
 function animate() {
     requestAnimationFrame( animate );
 
-    // required if controls.enableDamping or controls.autoRotate are set to true
+    // コンフィグに基づいてコントロールをアップデート
     controls.update();
 
     renderer.render( scene, camera );
