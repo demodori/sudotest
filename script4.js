@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import * as THREE_ADD from 'three/addons/';
 
 var main = function () {
 
@@ -15,7 +16,7 @@ var main = function () {
     var camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
     camera.position.set(0, 60, 100);
     camera.rotation.set(-0.4, 0, 0);
-    var controls = new THREE.OrbitControls(camera);
+    var controls = new THREE_ADD.OrbitControls(camera);
 
     //レンダラの初期化
     var renderer = new THREE.WebGLRenderer();
