@@ -1,5 +1,3 @@
-
-
 import * as THREE from 'three';
 
 import Stats from 'three/addons/libs/stats.module.js';
@@ -43,7 +41,7 @@ dracoLoader.setDecoderPath( 'jsm/libs/draco/gltf/' );
 
 const loader = new GLTFLoader();
 loader.setDRACOLoader( dracoLoader );
-loader.load( 'models/gltf/LittlestTokyo.glb', function ( gltf ) {
+loader.load( './LittlestTokyo.glb', function ( gltf ) {
 
 	const model = gltf.scene;
 	model.position.set( 1, 1, 0 );
