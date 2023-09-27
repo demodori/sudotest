@@ -24,7 +24,7 @@ var main = function () {
     camera.position.set(0, 60, 100);
     camera.rotation.set(-0.4, 0, 0);
     // var controls = new ORBIT.OrbitControls(camera, renderer.domElement);
-	var controls = new TREE.OrbitControls(camera);
+	var controls = new THREE.OrbitControls(camera);
 
     //ライトの作成
     var directionalLight = new THREE.DirectionalLight(0xffffff);
