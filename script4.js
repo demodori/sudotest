@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import * as ORBIT from 'three/addons/controls/OrbitControls.js';
 
+
 var main = function () {
 
     var scene = new THREE.Scene();
@@ -30,8 +31,8 @@ var main = function () {
     scene.add(directionalLight);
 
     //XYZ軸の表示
-    var axis = new THREE.AxisHelper(200);
-    scene.add(axis);
+    var axes = new THREE.AxesHelper(200);
+    scene.add(axes);
 
     //表示する物体の作成
     var geometry = new THREE.CubeGeometry(30, 30, 30, 5, 5, 5);
