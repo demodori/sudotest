@@ -12,17 +12,17 @@ var main = function () {
     var near = 1;
     var far = 10000;
 
-    //カメラ
-    var camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    camera.position.set(0, 60, 100);
-    camera.rotation.set(-0.4, 0, 0);
-    var controls = new ORBIT.OrbitControls(camera);
 
     //レンダラの初期化
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize(width, height);
     document.body.appendChild(renderer.domElement);
 
+	//カメラ
+    var camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+    camera.position.set(0, 60, 100);
+    camera.rotation.set(-0.4, 0, 0);
+    var controls = new ORBIT.OrbitControls(camera, renderer.domElement);
 
     //ライトの作成
     var directionalLight = new THREE.DirectionalLight(0xffffff);
