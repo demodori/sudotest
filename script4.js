@@ -1,57 +1,91 @@
+
+
 import * as THREE from 'three';
-import * as ORBIT from 'three/addons/controls/OrbitControls.js';
+
+import Stats from 'three/addons/libs/stats.module.js';
+
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+
+let mixer;
+
+const clock = new THREE.Clock();
+const container = document.getElementById( 'container' );
+
+const stats = new Stats();
+container.appendChild( stats.dom );
+
+const renderer = new THREE.WebGLRenderer( { antialias: true } );
+renderer.setPixelRatio( window.devicePixelRatio );
+renderer.setSize( window.innerWidth, window.innerHeight );
+container.appendChild( renderer.domElement );
+
+const pmremGenerator = new THREE.PMREMGenerator( renderer );
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color( 0xbfe3dd );
+scene.environment = pmremGenerator.fromScene( new RoomEnvironment( renderer ), 0.04 ).texture;
+
+const camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 100 );
+camera.position.set( 5, 2, 8 );
+
+const controls = new OrbitControls( camera, renderer.domElement );
+controls.target.set( 0, 0.5, 0 );
+controls.update();
+controls.enablePan = false;
+controls.enableDamping = true;
+
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath( 'jsm/libs/draco/gltf/' );
+
+const loader = new GLTFLoader();
+loader.setDRACOLoader( dracoLoader );
+loader.load( 'models/gltf/LittlestTokyo.glb', function ( gltf ) {
+
+	const model = gltf.scene;
+	model.position.set( 1, 1, 0 );
+	model.scale.set( 0.01, 0.01, 0.01 );
+	scene.add( model );
+
+	mixer = new THREE.AnimationMixer( model );
+	mixer.clipAction( gltf.animations[ 0 ] ).play();
+
+	animate();
+
+}, undefined, function ( e ) {
+
+	console.error( e );
+
+} );
 
 
-var main = function () {
+window.onresize = function () {
 
-    var scene = new THREE.Scene();
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
 
-    var width = 800;
-    var height = 600;
-    var fov = 60;
-    var aspect = width / height;
-    var near = 1;
-    var far = 10000;
+	renderer.setSize( window.innerWidth, window.innerHeight );
 
-
-    //レンダラの初期化
-    var renderer = new THREE.WebGLRenderer();
-    renderer.setSize(width, height);
-    document.body.appendChild(renderer.domElement);
-
-	//カメラ
-    var camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    camera.position.set(0, 60, 100);
-    camera.rotation.set(-0.4, 0, 0);
-    var controls = new ORBIT.OrbitControls(camera, renderer.domElement);
-	// var controls = new THREE.OrbitControls(camera);
-
-    //ライトの作成
-    var directionalLight = new THREE.DirectionalLight(0xffffff);
-    directionalLight.position.set(0, 0.2, 0.2);
-    scene.add(directionalLight);
-
-    //XYZ軸の表示
-    var axes = new THREE.AxesHelper(200);
-    scene.add(axes);
-
-    //表示する物体の作成
-    var geometry = new THREE.CubeGeometry(30, 30, 30, 5, 5, 5);
-    var material = new THREE.MeshBasicMaterial({color: 0x008866, wireframe: true});
-    var mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(0, 15, 0);
-    scene.add(mesh);
-
-    //グリッド
-    var grid = new THREE.GridHelper(100, 10);
-    grid.position = new THREE.Vector3(0, 0, 0);
-    grid.rotation = new THREE.Euler(0, 0, 0);
-    scene.add(grid);
-
-    (function renderLoop() {
-        requestAnimationFrame(renderLoop);
-        controls.update();
-        renderer.render(scene, camera);
-    })();
 };
-window.addEventListener('DOMContentLoaded', main, false);
+
+
+function animate() {
+
+	requestAnimationFrame( animate );
+
+	const delta = clock.getDelta();
+
+	mixer.update( delta );
+
+	controls.update();
+
+	stats.update();
+
+	renderer.render( scene, camera );
+
+}
+
+
