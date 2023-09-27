@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import * as ORBIT from 'three/addons/OrbitControls.js';
+import * as ORBIT from 'three/addons/controls/OrbitControls.js';
 
 var main = function () {
 
