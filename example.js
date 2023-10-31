@@ -42,8 +42,8 @@ dracoLoader.setDecoderPath( 'https://unpkg.com/three/examples/jsm/libs/draco/glt
 
 const loader = new GLTFLoader();
 loader.setDRACOLoader( dracoLoader );
-//loader.load( './LittlestTokyo.glb', function ( gltf ) {
-loader.load( './cube.glb', function ( gltf ) {
+loader.load( './LittlestTokyo.glb', function ( gltf ) {
+//loader.load( './cube.glb', function ( gltf ) {
 
 	const model = gltf.scene;
 	model.position.set( 1, 1, 0 );
